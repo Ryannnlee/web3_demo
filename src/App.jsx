@@ -10,6 +10,8 @@ function App() {
   const [signer, setSigner] = useState(null)
   const [balance, setBalance] = useState(null)
 
+  const shortenAddr = (addr) => `${addr.slice(0, 4)}...${addr.slice(-4)}`
+
   const connectWalletHandler = async () => {
     const web3Modal = new Web3Modal({
       network: production ? 'mainnet' : 'rinkeby', // optional
@@ -21,7 +23,7 @@ function App() {
     const signer = provider.getSigner()
     setSigner(() => signer)
     const address = await signer.getAddress()
-    setAddress(() => address)
+    setAddress(() => shortenAddr(address))
     const balance = await provider.getBalance(address)
     setBalance(() => ethers.utils.formatEther(balance))
   }
